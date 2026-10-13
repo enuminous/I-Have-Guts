@@ -39,3 +39,10 @@ Flat GitHub repository based on Matthew Chenoweth Wright's January 15, 2025 arti
 Run: `python3 simulation.py` and `python3 -m unittest -v test_simulation.py`.
 
 **Scientific status:** classical Einstein–Maxwell mathematics and a benchmark, not evidence for a new force or quantum gravity. Original 20 simulations cannot be reproduced without their original source and parameters.
+
+## Lean 4 verification
+
+The pinned [formal package](formal/VERIFICATION.md) contains kernel-checked mathematical
+statements with an explicit [coverage and obligation ledger](formal/COVERAGE.md).
+The `Lean verification` workflow builds the package and tests its strict axiom audit.
+The workflow result for a commit, rather than this link alone, establishes compilation.
