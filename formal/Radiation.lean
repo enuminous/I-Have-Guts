@@ -28,6 +28,7 @@ noncomputable def velocity (A B t₀ t : ℝ) : ℝ :=
 private theorem log_ratio_derivative (t₀ t : ℝ) (h₀ : t₀ ≠ 0) (ht : t ≠ 0) :
     HasDerivAt (fun x => log (x/t₀)) (1/t) t := by
   convert ((hasDerivAt_id t).div_const t₀).log (div_ne_zero ht h₀) using 1
+  dsimp
   field_simp
 
 theorem separation_derivative (A B t₀ t : ℝ) (h₀ : 0 < t₀) (ht : 0 < t) :
@@ -40,7 +41,8 @@ theorem separation_derivative (A B t₀ t : ℝ) (h₀ : 0 < t₀) (ht : 0 < t) 
   have hsq := sq_sqrt ht.le
   have hs0 := (sqrt_pos.2 ht).ne'
   field_simp [ht.ne',hs0]
-  nlinarith [hsq]
+  rw [hsq]
+  ring
 
 theorem separation_ode (A B t₀ t : ℝ) (h₀ : 0 < t₀) (ht : 0 < t) :
     HasDerivAt (velocity A B t₀) (-separation A B t₀ t / (4*t^2)) t := by
@@ -51,8 +53,13 @@ theorem separation_ode (A B t₀ t : ℝ) (h₀ : 0 < t₀) (ht : 0 < t) :
   convert h using 1
   dsimp [separation]
   have hsq := sq_sqrt ht.le
+  have hfour : sqrt t ^ 4 = t^2 := by
+    calc
+      sqrt t ^ 4 = (sqrt t ^ 2)^2 := by ring
+      _ = t^2 := by rw [hsq]
   field_simp [ht.ne', hs0]
-  nlinarith [hsq]
+  simp only [hsq, hfour]
+  ring
 
 theorem initial_position (A B t₀ : ℝ) (h₀ : 0 < t₀) :
     separation A B t₀ t₀ = sqrt t₀ * A := by simp [separation,h₀.ne']
